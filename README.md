@@ -35,6 +35,12 @@ cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
+Dashboard UI is available at:
+
+```text
+http://127.0.0.1:8000/
+```
+
 ## Tooling
 
 ```bash

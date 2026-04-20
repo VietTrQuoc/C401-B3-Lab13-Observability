@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import json
 import os
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from structlog.contextvars import bind_contextvars
 
 from .agent import LabAgent
@@ -20,6 +23,19 @@ log = get_logger()
 app = FastAPI(title="Day 13 Observability Lab")
 app.add_middleware(CorrelationIdMiddleware)
 agent = LabAgent()
+ROOT_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = ROOT_DIR / "static"
+INCIDENTS_PATH = ROOT_DIR / "data" / "incidents.json"
+
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+def incident_catalog() -> dict[str, dict]:
+    try:
+        return json.loads(INCIDENTS_PATH.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
 
 
 @app.on_event("startup")
@@ -40,6 +56,30 @@ async def health() -> dict:
 @app.get("/metrics")
 async def metrics() -> dict:
     return snapshot()
+
+
+@app.get("/incidents")
+async def incidents() -> dict:
+    current_status = status()
+    catalog = incident_catalog()
+    return {
+        "items": [
+            {
+                "key": key,
+                "enabled": enabled,
+                **catalog.get(key, {}),
+            }
+            for key, enabled in current_status.items()
+        ]
+    }
+
+
+@app.get("/")
+async def dashboard() -> FileResponse:
+    index_path = STATIC_DIR / "index.html"
+    if not index_path.exists():
+        raise HTTPException(status_code=404, detail="Dashboard UI not found")
+    return FileResponse(index_path)
 
 
 @app.post("/chat", response_model=ChatResponse)

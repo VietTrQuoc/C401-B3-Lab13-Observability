@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VinBot Ops dashboard for the Day 13 observability lab">
+  <title>VinBot Ops Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <div class="brand-mark">VO</div>
+        <div>
+          <p class="eyebrow">VinFast Warranty AI</p>
+          <h1>VinBot Ops</h1>
+          <p class="brand-copy">Dashboard observability cho agent tư vấn bảo hành VinFast, kế thừa chủ đề từ `lab6_B3`.</p>
+        </div>
+      </div>
+
+      <section class="sidebar-section">
+        <div class="section-heading">
+          <span>Điều khiển</span>
+          <span class="badge">1h</span>
+        </div>
+        <label class="control-label" for="refreshSelect">Tự làm mới</label>
+        <select id="refreshSelect" class="control-input">
+          <option value="15000">15 giây</option>
+          <option value="30000">30 giây</option>
+        </select>
+        <div class="button-row">
+          <button id="demoTrafficBtn" class="primary-btn">Tạo demo traffic</button>
+          <button id="clearHistoryBtn" class="ghost-btn">Xóa history cục bộ</button>
+        </div>
+        <p class="hint-text">Demo traffic sẽ gọi trực tiếp API `/chat` để dashboard có dữ liệu ngay cả khi chưa chạy script load test.</p>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-heading">
+          <span>Incident Toggles</span>
+          <span id="activeIncidentCount" class="badge">0 active</span>
+        </div>
+        <div id="incidentList" class="incident-list">
+          <div class="empty-note">Đang tải trạng thái incident...</div>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-heading">
+          <span>Ghi chú demo</span>
+        </div>
+        <ul class="note-list">
+          <li>Load steady-state: `python scripts/load_test.py --concurrency 3 --repeat 2`</li>
+          <li>Bật incident và chạy lại với `--concurrency 5` để xem panel nào đổi trước.</li>
+          <li>Panel chất lượng có mốc SLO `0.75`, panel latency có ngưỡng `2000ms` và `2500ms`.</li>
+        </ul>
+      </section>
+    </aside>
+
+    <main class="main-area">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Day 13 Observability Lab</p>
+          <h2>Dashboard cho VinBot Warranty Agent</h2>
+          <p class="hero-copy">Theo dõi latency, traffic, lỗi, cost, token, và quality theo thời gian thực từ cùng một giao diện.</p>
+        </div>
+        <div class="hero-status">
+          <div class="status-tile">
+            <span class="status-label">Truy vết</span>
+            <strong id="tracingStatus">-</strong>
+          </div>
+          <div class="status-tile">
+            <span class="status-label">Last update</span>
+            <strong id="lastUpdated">-</strong>
+          </div>
+          <div class="status-tile">
+            <span class="status-label">Service</span>
+            <strong id="serviceHealth">Healthy</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="summary-row" id="summaryRow">
+        <article class="summary-card">
+          <span class="summary-label">Tổng request</span>
+          <strong id="summaryRequests">0</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Error rate</span>
+          <strong id="summaryErrorRate">0.00%</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">p95 latency</span>
+          <strong id="summaryLatency">0 ms</strong>
+        </article>
+        <article class="summary-card">
+          <span class="summary-label">Quality avg</span>
+          <strong id="summaryQuality">0.00</strong>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel panel-wide" id="latencyPanel"></article>
+        <article class="panel" id="trafficPanel"></article>
+        <article class="panel" id="errorPanel"></article>
+        <article class="panel" id="costPanel"></article>
+        <article class="panel" id="tokensPanel"></article>
+        <article class="panel" id="qualityPanel"></article>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

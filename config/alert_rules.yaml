@@ -1,19 +1,32 @@
 alerts:
   - name: high_latency_p95
     severity: P2
-    condition: latency_p95_ms > 5000 for 30m
+    source: /metrics.latency_p95
+    condition: latency_p95 > 2500 for 5m
+    threshold: 2500
+    window: 5m
     type: symptom-based
+    likely_scenario: rag_slow
     owner: team-oncall
     runbook: docs/alerts.md#1-high-latency-p95
   - name: high_error_rate
     severity: P1
-    condition: error_rate_pct > 5 for 5m
+    source: /metrics.traffic.error_rate
+    condition: traffic.error_rate > 0.05 for 5m
+    threshold: 0.05
+    window: 5m
     type: symptom-based
+    likely_scenario: tool_fail
     owner: team-oncall
     runbook: docs/alerts.md#2-high-error-rate
   - name: cost_budget_spike
     severity: P2
-    condition: hourly_cost_usd > 2x_baseline for 15m
+    source: /metrics.avg_cost_usd
+    secondary_signal: /metrics.tokens_out_total
+    condition: avg_cost_usd > 0.0012 for 15m
+    threshold: 0.0012
+    window: 15m
     type: symptom-based
+    likely_scenario: cost_spike
     owner: finops-owner
     runbook: docs/alerts.md#3-cost-budget-spike

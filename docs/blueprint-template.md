@@ -8,16 +8,19 @@
 - [MEMBERS]:
   - Member A: [Name] | Role: Logging & PII
   - Member B: [Name] | Role: Tracing & Enrichment
-  - Member C: [Name] | Role: SLO & Alerts
-  - Member D: [Name] | Role: Load Test & Dashboard
-  - Member E: [Name] | Role: Demo & Report
+  - Member C: [Name] | Role: API Lifecycle & Context
+  - Member D: [Name] | Role: Metrics & Tracing
+  - Member E: [Name] | Role: Incidents & Control Plane
+  - Member F: [Name] | Role: Validation, SLO/Alerts, Dashboard, Report
 
 ---
 
 ## 2. Group Performance (Auto-Verified)
 - [VALIDATE_LOGS_FINAL_SCORE]: /100
+- [VALIDATE_LOGS_EXIT_CODE]: 
 - [TOTAL_TRACES_COUNT]: 
 - [PII_LEAKS_FOUND]: 
+- [BASELINE_LOAD_TEST_SUMMARY]: 
 
 ---
 
@@ -34,20 +37,21 @@
 - [SLO_TABLE]:
 | SLI | Target | Window | Current Value |
 |---|---:|---|---:|
-| Latency P95 | < 3000ms | 28d | |
-| Error Rate | < 2% | 28d | |
-| Cost Budget | < $2.5/day | 1d | |
+| Latency P95 | <= 2000ms | 1h | |
+| Error Rate | <= 0.05 | 1h | |
+| Total Cost | <= 0.02 USD | 1h-demo-run | |
+| Quality Avg | >= 0.75 | 1h | |
 
 ### 3.3 Alerts & Runbook
 - [ALERT_RULES_SCREENSHOT]: [Path to image]
-- [SAMPLE_RUNBOOK_LINK]: [docs/alerts.md#L...]
+- [SAMPLE_RUNBOOK_LINK]: [docs/alerts.md#1-high-latency-p95]
 
 ---
 
 ## 4. Incident Response (Group)
 - [SCENARIO_NAME]: (e.g., rag_slow)
 - [SYMPTOMS_OBSERVED]: 
-- [ROOT_CAUSE_PROVED_BY]: (List specific Trace ID or Log Line)
+- [ROOT_CAUSE_PROVED_BY]: (List specific Trace ID, log line, or metric key)
 - [FIX_ACTION]: 
 - [PREVENTIVE_MEASURE]: 
 
@@ -72,6 +76,10 @@
 - [EVIDENCE_LINK]: 
 
 ### [MEMBER_E_NAME]
+- [TASKS_COMPLETED]: 
+- [EVIDENCE_LINK]: 
+
+### [MEMBER_F_NAME]
 - [TASKS_COMPLETED]: 
 - [EVIDENCE_LINK]: 
 

@@ -1,16 +1,36 @@
 service: day13-observability-lab
-window: 28d
+dashboard_default_range: 1h
+refresh_interval: 30s
 slis:
-  latency_p95_ms:
-    objective: 3000
-    target: 99.5
-    note: Replace with your group's target
-  error_rate_pct:
-    objective: 2
+  latency_p95:
+    source: /metrics.latency_p95
+    comparator: <=
+    objective: 2000
     target: 99.0
-  daily_cost_usd:
-    objective: 2.5
+    window: 1h
+    unit: ms
+    note: Detects tail-latency regressions and the rag_slow scenario.
+  error_rate:
+    source: /metrics.traffic.error_rate
+    comparator: <=
+    objective: 0.05
+    target: 99.0
+    window: 1h
+    unit: ratio
+    note: Derived from errors_total / requests_total.
+  total_cost_usd:
+    source: /metrics.total_cost_usd
+    comparator: <=
+    objective: 0.02
     target: 100.0
-  quality_score_avg:
+    window: 1h-demo-run
+    unit: usd
+    note: Watch this together with avg_cost_usd during the cost_spike incident.
+  quality_avg:
+    source: /metrics.quality_avg
+    comparator: >=
     objective: 0.75
     target: 95.0
+    window: 1h
+    unit: score
+    note: Heuristic answer-quality proxy exposed by the agent.

@@ -1,3 +1,11 @@
-{"question":"What is your refund policy?","must_include":["7 days","proof of purchase"]}
-{"question":"Explain why metrics traces and logs work together","must_include":["metrics","traces","logs"]}
-{"question":"What should not appear in app logs?","must_include":["PII","sensitive"]}
+{"message":"What is your refund policy? My email is student@vinuni.edu.vn","must_include":["7 days","proof of purchase"],"must_not_include":["student@vinuni.edu.vn"]}
+{"message":"Explain why metrics traces and logs work together","must_include":["metrics","traces","logs"],"must_not_include":["starter answer","general fallback"]}
+{"message":"Summarize the monitoring policy for production logging","must_include":["metrics","logs","PII"],"must_not_include":["student@vinuni.edu.vn","4111 1111 1111 1111"]}
+{"message":"Can I get help with policy and monitoring?","must_include":["metrics","logs","PII"],"must_not_include":["starter answer","general fallback"]}
+{"message":"Here is my phone 0987654321, what should be logged?","must_include":["PII","sanitized summaries"],"must_not_include":["0987654321"]}
+{"message":"Give me a short summary of the observability workflow","must_include":["metrics","traces","logs"],"must_not_include":["starter answer","general fallback"]}
+{"message":"What should not appear in app logs?","must_include":["PII","sensitive"],"must_not_include":["4111 1111 1111 1111","student@vinuni.edu.vn"]}
+{"message":"How do I debug tail latency?","must_include":["slow traces","RAG","LLM spans"],"must_not_include":["starter answer","general fallback"]}
+{"message":"What is the policy for PII and credit card 4111 1111 1111 1111?","must_include":["PII","sanitized summaries"],"must_not_include":["4111 1111 1111 1111"]}
+{"message":"How should alerts be designed?","must_include":["user impact","clear triggers","mitigation"],"must_not_include":["starter answer","general fallback"]}
+{"message":"What are the office opening hours on Sunday?","must_include":["could not find","matching document"],"must_not_include":["student@vinuni.edu.vn","4111 1111 1111 1111"]}

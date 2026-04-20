@@ -3,7 +3,7 @@
 ## 1. Thông tin cá nhân
 
 - **Họ và tên**: Trần Quốc Việt
-- **Mã học viên**: 
+- **Mã học viên**: 2A202600307
 - **Vai trò trong nhóm**: Nền tảng request lifecycle và API logging
 - **Thứ tự thực hiện**: Làm đầu tiên
 - **Phạm vi file phụ trách**:

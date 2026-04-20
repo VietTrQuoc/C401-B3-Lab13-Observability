@@ -1,5 +1,38 @@
 {
-  "rag_slow": "Retrieval latency spike. Students should find slow RAG span in trace.",
-  "tool_fail": "Vector store or tool error. Students should identify error_type from logs.",
-  "cost_spike": "Token usage spike. Students should explain higher output token cost."
+  "rag_slow": {
+    "name": "RAG Slowdown",
+    "description": "Retrieval latency spike. Students should find slow RAG span in trace.",
+    "symptom": "High response latency (2-3s per request) with most of the time spent in the RAG retrieval span",
+    "root_cause": "rag_slow incident flag is enabled in the system, introducing an artificial 2.5 second delay in RAG retrieval",
+    "expected_effect": "p95 latency SLO violation, slow chat responses, visible in /metrics and traces",
+    "detection_hints": [
+      "Check tail latency metrics (p95/p99)",
+      "Look at span durations in traces, specifically the retrieval span",
+      "Check if rag_slow is enabled in /health endpoint or incidents.json"
+    ]
+  },
+  "tool_fail": {
+    "name": "Vector Store Failure",
+    "description": "Vector store or tool error. Students should identify error_type from logs.",
+    "symptom": "500 Internal Server Error responses from /chat endpoint with error type 'RuntimeError'",
+    "root_cause": "tool_fail incident flag is enabled, causing the RAG retrieval function to throw 'Vector store timeout' exception",
+    "expected_effect": "High error rate visible in /metrics, failed requests in logs with error_type",
+    "detection_hints": [
+      "Check error_rate and error_breakdown in /metrics",
+      "Look for 'request_failed' log events with error_type=RuntimeError",
+      "Check if tool_fail is enabled in /health endpoint"
+    ]
+  },
+  "cost_spike": {
+    "name": "Cost Spike",
+    "description": "Token usage spike. Students should explain higher output token cost.",
+    "symptom": "Unusually high token usage and cost per request, with output tokens 4x higher than normal",
+    "root_cause": "cost_spike incident flag is enabled, multiplying output token count by 4, increasing cost",
+    "expected_effect": "High token count and cost visible in /metrics and logs",
+    "detection_hints": [
+      "Check token and cost metrics in /metrics",
+      "Look for 'response_sent' log events with high tokens_out values",
+      "Check if cost_spike is enabled in /health endpoint"
+    ]
+  }
 }
